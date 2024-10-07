@@ -1,0 +1,69 @@
+;The code will prompt the user to input two numbers, add them, and then display the result
+dosseg
+.model small
+.stack 100h
+.data
+n1 db 0
+n2 db 0
+sum db 0
+msg1 db 'Enter first number: $'
+  
+msg2 db 'Enter second number: $'
+    
+msg3 db 'The sum is: $'
+.code
+main proc
+mov ax,@data
+mov ds,ax
+
+mov dx,offset msg1
+mov ah,9
+int 21h
+call getNumber
+mov n1,al
+
+mov dx,offset msg2
+mov ah,9
+int 21h
+call getNumber
+mov n2,al
+
+call addNumber
+
+mov dx,offset msg3
+mov ah,9
+int 21h
+call display_result
+mov ah,4ch 
+int 21h
+
+
+main endp
+getNumber proc
+mov ah,1
+int 21h
+ret
+getNumber endp
+
+addNumber proc
+mov al, n1
+
+add al, n2
+    
+mov sum, al
+ret
+addNumber endp
+
+display_result proc
+mov al, sum
+    
+add al, '0'     
+mov dl, al
+   
+mov ah, 2
+    
+int 21h
+ret 
+display_result endp
+
+end main
